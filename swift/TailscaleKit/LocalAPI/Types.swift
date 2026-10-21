@@ -70,7 +70,6 @@ public struct Ipn: Sendable {
     public struct Prefs: Codable, Sendable {
         public var ControlURL: String = ""
         public var RouteAll: Bool = false
-        public var AllowSingleHosts: Bool = false
         public var CorpDNS: Bool = false
         public var WantRunning: Bool = false
         public var LoggedOut: Bool = false

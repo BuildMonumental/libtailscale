@@ -33,6 +33,7 @@ public actor LocalAPIClient {
         case profiles = "profiles"
         case profilesCurrent = "profiles/current"
         case status = "status"
+        case dnsConfig = "dns-config"
         case watchIPNBus = "watch-ipn-bus"
     }
 
@@ -231,6 +232,19 @@ public actor LocalAPIClient {
             endpoint: .status,
             method: .GET,
             resultTransformer: jsonDecodeTransformer(IpnState.Status.self))
+
+        switch result {
+        case .success(let result):  return result
+        case .failure(let error):  throw error
+        }
+    }
+
+    /// dnsConfig returns the DNS configuration from the current netmap.
+    public func dnsConfig() async throws -> Tailcfg.DNSConfig {
+        let result = await doSimpleAPIRequest(
+            endpoint: .dnsConfig,
+            method: .GET,
+            resultTransformer: jsonDecodeTransformer(Tailcfg.DNSConfig.self))
 
         switch result {
         case .success(let result):  return result
