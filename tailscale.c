@@ -19,6 +19,7 @@ extern int TsnetSetAuthKey(int sd, char* str);
 extern int TsnetSetControlURL(int sd, char* str);
 extern int TsnetSetEphemeral(int sd, int ephemeral);
 extern int TsnetSetLogFD(int sd, int fd);
+extern int TsnetSetDeviceSerialNumber(char* str);
 extern int TsnetGetIps(int sd, char *buf, size_t buflen);
 extern int TsnetGetRemoteAddr(int listener, int conn, char *buf, size_t buflen);
 extern int TsnetListen(int sd, char* net, char* addr, int* listenerOut);
@@ -80,6 +81,9 @@ int tailscale_set_ephemeral(tailscale sd, int ephemeral) {
 }
 int tailscale_set_logfd(tailscale sd, int fd) {
 	return TsnetSetLogFD(sd, fd);
+}
+int tailscale_set_device_serial_number(const char* serial_number) {
+	return TsnetSetDeviceSerialNumber((char*)serial_number);
 }
 
 int tailscale_loopback(tailscale sd, char* addr_out, size_t addrlen, char* proxy_cred_out, char* local_api_cred_out) {

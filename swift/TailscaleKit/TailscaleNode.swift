@@ -13,18 +13,24 @@ public struct Configuration: Sendable {
     public let authKey: String?    ///< An auth key.  Leave empty to use web auth
     public let controlURL: String  ///< URL for Tailscale control
     public let ephemeral: Bool
+    /// The device's serial number, reported to control for device posture.
+    /// iOS apps cannot read it themselves; device management provides it.
+    /// It applies to every node in the process.
+    public let deviceSerialNumber: String?
 
     public init(hostName: String,
                 path: String,
                 authKey: String?,
                 controlURL: String,
-                ephemeral: Bool = false)
+                ephemeral: Bool = false,
+                deviceSerialNumber: String? = nil)
     {
         self.hostName = hostName
         self.path = path
         self.authKey = authKey
         self.controlURL = controlURL
         self.ephemeral = ephemeral
+        self.deviceSerialNumber = deviceSerialNumber
     }
 
 }
@@ -82,6 +88,9 @@ public actor TailscaleNode {
         tailscale_set_dir(tailscale, config.path)
         tailscale_set_control_url(tailscale, config.controlURL)
         tailscale_set_ephemeral(tailscale, config.ephemeral ? 1 : 0)
+        if let deviceSerialNumber = config.deviceSerialNumber {
+            tailscale_set_device_serial_number(deviceSerialNumber)
+        }
 
         let res = tailscale_start(tailscale)
 
