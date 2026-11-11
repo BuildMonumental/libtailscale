@@ -82,6 +82,15 @@ extern int tailscale_set_ephemeral(tailscale sd, int ephemeral);
 // Returns zero on success or -1 on error, call tailscale_errmsg for details.
 extern int tailscale_set_logfd(tailscale sd, int fd);
 
+// tailscale_set_device_serial_number sets the serial number of the device
+// for every tailscale instance in the process, and turns posture checking on,
+// so the node reports the serial number when the control plane asks for it.
+// Platforms where the process cannot read the serial number itself, such as
+// iOS, get it from device management.
+//
+// Returns zero on success or -1 on error.
+extern int tailscale_set_device_serial_number(const char* serial_number);
+
 // A tailscale_conn is a connection to an address on the tailnet.
 //
 // It is a pipe(2) on which you can use read(2), write(2), and close(2).

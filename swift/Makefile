@@ -1,6 +1,10 @@
 # Copyright (c) Tailscale Inc & AUTHORS
 # SPDX-License-Identifier: BSD-3-Clause
 
+# A failed xcodebuild must fail the target, not hide behind the prettifier.
+SHELL := /bin/bash
+.SHELLFLAGS := -o pipefail -c
+
 ## Prettifies xcode output for xcode tests using xcpretty, if it is installed
 XCPRETTIFIER := xcpretty
 ifeq (, $(shell which $(XCPRETTIFIER)))
